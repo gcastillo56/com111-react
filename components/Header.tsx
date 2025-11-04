@@ -7,7 +7,7 @@ export default function Header() {
       <nav className="flex justify-between items-center">
           UP Blog
         <div className="flex items-center space-x-4">
-          <a href="/">
+          <a href="/posts">
             Posts
           </a>
             <a href="/" >
