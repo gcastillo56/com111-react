@@ -1,28 +1,20 @@
+'use client';
+import { useEffect, useState } from "react";
+import { fetchPosts } from "@/api/api";
 
 export default function Home() {
   const userName = 'Charles';
+  const [posts, setPosts] = useState<any[]>([]);
 
-  const posts = 
-    [
-      { 'id': 1,
-        'title': 'My post',
-        'author': { 'name' : 'Charles' },
-        'createdAt': '2025-11-04 12:00:00',
-        'content': 'This is just a sample content'
-      }, 
-      { 'id': 2,
-        'title': 'My second post',
-        'author': { 'name' : 'Joana' },
-        'createdAt': '2025-11-03 12:00:00',
-        'content': 'This is just a previous sample content'
-      }, 
-      { 'id': 3,
-        'title': 'My third post',
-        'author': { 'name' : 'Andrew' },
-        'createdAt': '2025-11-03 12:00:00',
-        'content': 'This is just my previous sample content'
-      }
-  ]
+  useEffect(() =>{
+    console.log("Fetching posts from backend");
+    async function loadPosts() {
+      const newPosts = await fetchPosts();
+      console.log("Posts fetched:", newPosts);
+      setPosts(newPosts);
+    }
+    loadPosts();
+  },[]);
 
   function Card({ post }: any) {
     const bgColor = post.author.name === userName ? "bg-red-50" : "bg-white";
@@ -55,7 +47,7 @@ export default function Home() {
     );
   }
 
-  const myPosts =  posts.map((post) => ( <Card post={post} /> ));
+  const myPosts = posts && posts.length > 0 ? posts.map((post) => ( <Card post={post} /> )) : <p>No posts available.</p>;
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">

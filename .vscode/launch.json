@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Server",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/server", // Adjust if your package.json is in a subfolder
+      "runtimeExecutable": "npm", 
+      "runtimeArgs": [
+        "run",
+        "server" 
+      ],
+      // This allows VS Code to re-attach if you use nodemon
+      "restart": true, 
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Next.js:blog",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "args": [],
+      "runtimeArgs": ["--inspect"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      }
+    },
+    {
+      "name": "Debug Client (Chrome)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000", // Your React URL
+      // Crucial: Point this to the folder containing your React src
+      "webRoot": "${workspaceFolder}", 
+      "sourceMapPathOverrides": {
+        "webpack:///*": "${webRoot}/*",
+        "webpack:///./*": "${webRoot}/*",
+        "webpack:///node_modules/*": "${webRoot}/node_modules/*"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack Debug",
+      "configurations": ["Debug Server", "Next.js:blog"]
+    }
+  ]
+}
