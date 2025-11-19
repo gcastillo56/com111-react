@@ -10,7 +10,7 @@ export default function Header({ value, action}: any) {
   return (
     <header className="w-full bg-white shadow-md py-4 px-8">
       <nav className="flex justify-between items-center">
-          UP Blog -- {value} 
+        <Link href="/" >UP Blog</Link>  :{value} 
         <div className="flex items-center space-x-4">
           <button onClick={add}>Add</button> 
           <Link href="/posts"> Posts </Link>

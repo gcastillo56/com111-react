@@ -36,7 +36,7 @@ app.post("/api/posts/new", (req, res) => {
         localData.push(...data)
     }
     localData.push({
-        "id" : localData.length,
+        "id" : localData.length + 1,
         "title" : title,
         "author" : { "name" : author },
         "createdAt": new Date(),

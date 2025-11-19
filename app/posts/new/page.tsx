@@ -24,7 +24,7 @@ function NewPost() {
         }
         addPost(postContent);
         setPostContent({ 'title': '', 'author': '', 'content': '' });
-        router.push('/posts')
+        router.push('/posts')   // NOTE: we could as well use the redirect("/posts") method from next/navigation
     }
 
     return (
