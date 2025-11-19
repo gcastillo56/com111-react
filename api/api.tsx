@@ -92,6 +92,19 @@ const loginAction = async (credentials: any) => {
     }
 }
 
+// NOTE: Add the method to register a new user
+const registerAction = async (credentials: any) => {
+    console.log("Registering into the system");
+    try {
+        const res = await myAPI.post(`/api/register`, { ...credentials } );
+        console.log("Response from backend:", res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        return { "error": "Wrong credentials", };
+    }
+}
+
 const pingBackend = async () => {
     console.log("Pinging the backend");
     try {
@@ -104,4 +117,4 @@ const pingBackend = async () => {
     }
 }
 
-export { fetchPosts, pingBackend, addPost, deletePost, updatePost, loginAction }
+export { fetchPosts, pingBackend, addPost, deletePost, updatePost, loginAction, registerAction }

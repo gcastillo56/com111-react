@@ -90,4 +90,28 @@ app.post("/api/login", (req, res) => {
     }
 });
 
+// NOTE: Add an endpoint for registration
+app.post("/api/register", (req, res) => {
+    if(registeredUsers.length == 0) {
+        // We will take the users from a file
+        const data = require('../data/users.json');
+        registeredUsers.push(...data)
+    }
+    const { name, email, password } = req.body;
+    // NOTE: Check if it exist based on the email that should be unique
+    const userIdx = registeredUsers.findIndex((auser) => auser.user === email );
+    if (userIdx === -1) {
+        const newUser = { 
+            "user": email,
+            "password": password,
+            "name": name,
+            "id" : `blog_0${registeredUsers.length + 1}`
+        }
+        registeredUsers.push(newUser);
+        res.json(newUser);
+    } else {
+        res.json({ 'error': 'Email already in use' });
+    }
+});
+
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

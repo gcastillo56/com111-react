@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { registerAction } from "@/api/api";
+import { usePostContext } from "@/context/postContext";
 
 export default function Register() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [registrationForm, setRegistrationForm] = useState({ 'name': '', 'email': '', 'password': '' });
+    // NOTE: Just as in the login, once registered we pass the name to the context
+    const { setUser } = usePostContext();
 
     const fieldChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
         setRegistrationForm({ ...registrationForm, [e.target.name] : e.target.value });
@@ -26,7 +29,15 @@ export default function Register() {
             //     setError("Failed to sign in after registration");
             //     return;
             // }
-            console.log(registrationForm);
+
+            // NOTE: Perform the regis
+            const response = await registerAction(registrationForm);
+            if (response?.error) {
+                setError(response?.error);
+                return;
+            }
+            // NOTE: register our name into the context
+            setUser(response.name);
             router.push("/");
             router.refresh();
         } catch (error) {

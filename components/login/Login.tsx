@@ -28,7 +28,7 @@ export default function Login() {
             // });
             const response = await loginAction(loginCredentials);
             if (response?.error) {
-                setError("Invalid credentials");
+                setError(response?.error);
                 return;
             }
             // NOTE: register our name into the context
