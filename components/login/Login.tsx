@@ -1,15 +1,17 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
+import { loginAction } from "@/api/api";
+import { usePostContext } from "@/context/postContext";
 
 // NOTE: We create a controlled component to deal with the login information
 export default function Login() {
     const router = useRouter();
     const [loginCredentials, setLoginCredentials] = useState({ 'email': '', 'password': '' });
     const [error, setError] = useState<string | null>(null);
+    const { addUpdatePost } = usePostContext();
 
     const fieldChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
         setLoginCredentials({ ...loginCredentials, [e.target.name] : e.target.value });
@@ -24,12 +26,14 @@ export default function Login() {
             //     ...loginCredentials,
             //     redirect: false,
             // });
-
-            /*if (response?.error) {
+            const response = await loginAction(loginCredentials);
+            if (response?.error) {
                 setError("Invalid credentials");
                 return;
-            }*/
-            console.log(loginCredentials)
+            }
+            // NOTE: register our name into the context
+            addUpdatePost(response.name);
+            alert(`Welcome ${response.name}`)
             router.push("/");
             router.refresh();
         } catch {

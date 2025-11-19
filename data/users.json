@@ -1,0 +1,22 @@
+[
+    { "user": "charles@mail.com",
+      "password": "12345",
+      "name": "Charles",
+      "id" : "blog_001"
+    },
+    { "user": "andrew@mail.com",
+      "password": "12345",
+      "name": "Andrew",
+      "id" : "blog_002"
+    },
+    { "user": "joana@mail.com",
+      "password": "12345",
+      "name": "Joana",
+      "id" : "blog_003"
+    },
+    { "user": "mich@mail.com",
+      "password": "12345",
+      "name": "Michaela",
+      "id" : "blog_004"
+    }
+]

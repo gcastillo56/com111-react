@@ -79,6 +79,19 @@ const deletePost = async (postId: any) => {
     }
 }
 
+// NOTE: Add the method to login
+const loginAction = async (credentials: any) => {
+    console.log("Logging into the system");
+    try {
+        const res = await myAPI.post(`/api/login`, { ...credentials } );
+        console.log("Response from backend:", res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        return { "error": "Wrong credentials", };
+    }
+}
+
 const pingBackend = async () => {
     console.log("Pinging the backend");
     try {
@@ -91,4 +104,4 @@ const pingBackend = async () => {
     }
 }
 
-export { fetchPosts, pingBackend, addPost, deletePost, updatePost }
+export { fetchPosts, pingBackend, addPost, deletePost, updatePost, loginAction }

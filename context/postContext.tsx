@@ -4,7 +4,8 @@ import { fetchPosts, addPost, deletePost, updatePost } from "@/api/api";
 
 type PostContextType = {
     posts: any;
-    userName: string;                   
+    userName: string;    
+    setUser: (name: string) => void;    // NOTE: Add method to update the username from the login data               
     addUpdatePost: (post: any) => void;       
     removePost: (postId: any) => void; 
 }
@@ -13,7 +14,8 @@ const PostContext = createContext<PostContextType | undefined>(undefined);
 
 export const PostProvider = ({ children }: { children: React.ReactNode }) => {
     const [posts, setPosts] = useState<any>([]);
-    const userName = 'Charles';
+    // NOTE: We will set the name of the user now, based on the login data
+    const [userName, setUserName] = useState<string>('');
 
     useEffect(() =>{
         console.log("Fetching posts from backend");
@@ -37,8 +39,13 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         setPosts([...newPosts])
     }
 
+    // NOTE: Create the method that will set the value in the context variable
+    const setUser = (name: string) => {
+        setUserName(name);
+    }
+
     return(
-        <PostContext.Provider value={{posts, userName, addUpdatePost, removePost}}> {children} </PostContext.Provider>
+        <PostContext.Provider value={{posts, userName, addUpdatePost, removePost, setUser}}> {children} </PostContext.Provider>
     );
 }
 
