@@ -13,12 +13,9 @@ export default function Header({ value, action}: any) {
           UP Blog -- {value} 
         <div className="flex items-center space-x-4">
           <button onClick={add}>Add</button> 
-          <Link href="/posts">
-            Posts
-          </Link>
-            <Link href="/" >
-              Sign In
-            </Link>
+          <Link href="/posts"> Posts </Link>
+          <Link href="/posts/new"> New </Link>
+          <Link href="/" > Sign In </Link>
         </div>
       </nav>
     </header>

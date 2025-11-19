@@ -1,24 +1,15 @@
-'use client';
-import { useEffect, useState } from "react";
-import { fetchPosts } from "@/api/api";
+'use client'
+// NOTE: We will not get the posts from the context
+import { usePostContext } from "@/context/postContext";
 
 export default function Home() {
-  const userName = 'Charles';
-  const [posts, setPosts] = useState<any[]>([]);
-
-  useEffect(() =>{
-    console.log("Fetching posts from backend");
-    async function loadPosts() {
-      const newPosts = await fetchPosts();
-      console.log("Posts fetched:", newPosts);
-      setPosts(newPosts);
-    }
-    loadPosts();
-  },[]);
+  // NOTE: We get the posts and userName from the context directly
+  const { posts, userName } = usePostContext();
 
   function Card({ post }: any) {
     const bgColor = post.author.name === userName ? "bg-red-50" : "bg-white";
-    const renderIt = post.author.name === userName;
+    // NOTE: For now I will allow all posts to be visible in the landing page
+    const renderIt = true; //post.author.name === userName;
     return (
       <>
         { renderIt ? (
@@ -47,7 +38,7 @@ export default function Home() {
     );
   }
 
-  const myPosts = posts && posts.length > 0 ? posts.map((post) => ( <Card post={post} /> )) : <p>No posts available.</p>;
+  const myPosts = posts && posts.length > 0 ? posts.map((post: any) => ( <Card post={post} /> )) : <p>No posts available.</p>;
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-24 px-8">
