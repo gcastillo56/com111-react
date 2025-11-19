@@ -27,10 +27,28 @@ const fetchPosts = async () => {
     }
 }
 
-const addPosts = async (newPost: any) => {
+const addPost = async (newPost: any) => {
     console.log("Adding post in the backend");
     try {
         const res = await myAPI.post(`/api/posts/new`, { ...newPost } );
+        console.log("Response from backend:", res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error pinging backend:", error);
+        return [{ "id": 0,
+            "title": "No Posts",
+            "author": { "name" : "" },
+            "createdAt": "2025-11-04 12:00:00",
+            "content": "No posts available at the moment."
+        }];
+    }
+}
+
+// NOTE: We add the call to the update method in the backend
+const updatePost = async (editPost: any) => {
+    console.log("Updating post in the backend");
+    try {
+        const res = await myAPI.post(`/api/posts/${editPost.id}`, { ...editPost } );
         console.log("Response from backend:", res.data);
         return res.data;
     } catch (error) {
@@ -73,4 +91,4 @@ const pingBackend = async () => {
     }
 }
 
-export { fetchPosts, pingBackend, addPosts, deletePost }
+export { fetchPosts, pingBackend, addPost, deletePost, updatePost }

@@ -1,11 +1,11 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { fetchPosts, addPosts, deletePost } from "@/api/api";
+import { fetchPosts, addPost, deletePost, updatePost } from "@/api/api";
 
 type PostContextType = {
     posts: any;
     userName: string;                   
-    addPost: (post: any) => void;       
+    addUpdatePost: (post: any) => void;       
     removePost: (postId: any) => void; 
 }
 
@@ -25,8 +25,10 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         loadPosts();
     },[]);
 
-    const addPost = async (post: any) => { 
-        const newPosts = await addPosts(post);
+    const addUpdatePost = async (post: any) => { 
+        // NOTE: We check if the post has already an id assigned.
+        // Based on that we either edit or add
+        const newPosts = await (post.id === -1 ? addPost(post) : updatePost(post));
         setPosts([...newPosts]) 
     }
 
@@ -36,7 +38,7 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     return(
-        <PostContext.Provider value={{posts, userName, addPost, removePost}}> {children} </PostContext.Provider>
+        <PostContext.Provider value={{posts, userName, addUpdatePost, removePost}}> {children} </PostContext.Provider>
     );
 }
 
