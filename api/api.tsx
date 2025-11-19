@@ -27,7 +27,6 @@ const fetchPosts = async () => {
     }
 }
 
-// NOTE: We prepare the local api method that will contact the backend to receive the new post.
 const addPosts = async (newPost: any) => {
     console.log("Adding post in the backend");
     try {
@@ -45,11 +44,9 @@ const addPosts = async (newPost: any) => {
     }
 }
 
-// NOTE: Add the api local function that will make the call to the backend
 const deletePost = async (postId: any) => {
     console.log("Removing post in the backend");
     try {
-        // NOTE: Observe we are using the delete method
         const res = await myAPI.delete(`/api/posts/${postId}` );
         console.log("Response from backend:", res.data);
         return res.data;
@@ -76,8 +73,4 @@ const pingBackend = async () => {
     }
 }
 
-const testConnectivity = () => {
-    console.log("Testing the connectivity");
-}
-
-export { fetchPosts, pingBackend, testConnectivity, addPosts, deletePost }
+export { fetchPosts, pingBackend, addPosts, deletePost }

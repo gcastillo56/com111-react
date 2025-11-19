@@ -1,19 +1,15 @@
 'use client'
-// NOTE: We add the detailed view for each post
 import { notFound, useRouter } from "next/navigation";
 import { usePostContext } from "@/context/postContext";
 
-export default function DetailPost({ postId }: { postId: number }) {
+export default function Post({ postId }: { postId: number }) {
     const router = useRouter();
-    // NOTE: We get the delete method that is defined in the context
     const { posts, removePost } = usePostContext();    
     const postList = posts.filter((post: any) => post.id === postId );
-    // NOTE: The filter will always return a list, so we have to check if it has any element
     if (postList.length === 0) {
         notFound();
     }
     const post = postList[0]
-    // NOTE: Server action to delete the post. We will implement later
     const deletePost = () => {
         removePost(postId);
         router.back();
@@ -22,7 +18,6 @@ export default function DetailPost({ postId }: { postId: number }) {
     const goBack = () => {
         router.back();
     }
-    // NOTE: I did some design updates and added the back button
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center p-8">
             <button onClick={goBack} className="w-full sm:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out mb-12"> Back </button>

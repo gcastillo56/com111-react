@@ -2,11 +2,9 @@
 
 import Link from "next/link";
 
-export default function Header({ value, action}: any) {
-
-  const add = () => {
-    action(value+1)
-  }
+export default function Header({ value, action }: any) {
+  const add = () => { action(value + 1); };
+  
   return (
     <header className="w-full bg-white shadow-md py-4 px-8">
       <nav className="flex justify-between items-center">

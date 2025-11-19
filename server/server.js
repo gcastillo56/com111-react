@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-// NOTE: We forgot to configure our server with JSON encoded elements
 app.use(express.json());
 app.use(express.urlencoded( { extended: true } ));
 
@@ -19,7 +18,6 @@ app.get("/api/ping", (req, res) => {
 });
 
 app.get("/api/posts", (req, res)=>{ 
-    // console.log("Hitting endpoint")
     if(localData.length == 0) {
         const data = require('../data/posts.json');
         localData.push(...data)
@@ -27,10 +25,8 @@ app.get("/api/posts", (req, res)=>{
     res.json(localData);
 });
 
-// NOTE: I was using append instead of push in the adding to the array
 app.post("/api/posts/new", (req, res) => {
     const { title, author, content } = req.body;
-    // NOTE: We will also check this here to make sure that we always have all the original posts
     if(localData.length == 0) {
         const data = require('../data/posts.json');
         localData.push(...data)
@@ -42,20 +38,17 @@ app.post("/api/posts/new", (req, res) => {
         "createdAt": new Date(),
         "content" : content
     });
-    // NOTE: Once we have added the new post, we will return the updated list
     res.json(localData);
 });
 
-// NOTE: We will add a delete endpoint to remove the desired post from the list
 app.delete("/api/posts/:idx", (req, res) => {
     var delIdx = parseInt(req.params.idx);
     if(localData.length != 0) {
         const postIdx = localData.findIndex((post) => post.id === delIdx );
         if (postIdx !== -1) {
-            localData.splice(postIdx, 1); // Removes 1 element at that index
+            localData.splice(postIdx, 1); 
         }
     }
-    // NOTE: Once we have removed the desired post, we will return the updated list
     res.json(localData);
 });
 

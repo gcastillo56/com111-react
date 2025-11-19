@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
-function Post({post}: any) {
-    // NOTE: We also add the link to the detailed post in this view
+function PostListItem({post}: any) {
     return(
         <li key={post.id} className="border p-6 rounded-lg shadow-md bg-white">
             <Link href={`/posts/${post.id}`} className="text-2xl font-semibold text-gray-900 hover:underline">
@@ -19,4 +18,4 @@ function Post({post}: any) {
     );
 }
 
-export default Post;
+export default PostListItem;
