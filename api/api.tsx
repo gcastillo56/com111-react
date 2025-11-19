@@ -45,6 +45,25 @@ const addPosts = async (newPost: any) => {
     }
 }
 
+// NOTE: Add the api local function that will make the call to the backend
+const deletePost = async (postId: any) => {
+    console.log("Removing post in the backend");
+    try {
+        // NOTE: Observe we are using the delete method
+        const res = await myAPI.delete(`/api/posts/${postId}` );
+        console.log("Response from backend:", res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error pinging backend:", error);
+        return [{ "id": 0,
+            "title": "No Posts",
+            "author": { "name" : "" },
+            "createdAt": "2025-11-04 12:00:00",
+            "content": "No posts available at the moment."
+        }];
+    }
+}
+
 const pingBackend = async () => {
     console.log("Pinging the backend");
     try {
@@ -61,4 +80,4 @@ const testConnectivity = () => {
     console.log("Testing the connectivity");
 }
 
-export { fetchPosts, pingBackend, testConnectivity, addPosts }
+export { fetchPosts, pingBackend, testConnectivity, addPosts, deletePost }

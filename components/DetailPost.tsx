@@ -1,13 +1,12 @@
 'use client'
 // NOTE: We add the detailed view for each post
-import { notFound, redirect, useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { usePostContext } from "@/context/postContext";
-import Link from "next/link";
 
 export default function DetailPost({ postId }: { postId: number }) {
     const router = useRouter();
-    // NOTE: We get the required data from the context now that we are in a client component
-    const { posts } = usePostContext();    
+    // NOTE: We get the delete method that is defined in the context
+    const { posts, removePost } = usePostContext();    
     const postList = posts.filter((post: any) => post.id === postId );
     // NOTE: The filter will always return a list, so we have to check if it has any element
     if (postList.length === 0) {
@@ -16,8 +15,8 @@ export default function DetailPost({ postId }: { postId: number }) {
     const post = postList[0]
     // NOTE: Server action to delete the post. We will implement later
     const deletePost = () => {
-        alert("delete post")
-        router.push('/posts');
+        removePost(postId);
+        router.back();
     }
 
     const goBack = () => {

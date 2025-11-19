@@ -1,12 +1,13 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { fetchPosts, addPosts } from "@/api/api";
+import { fetchPosts, addPosts, deletePost } from "@/api/api";
 
 type PostContextType = {
     posts: any;
-    userName: string;       // NOTE: We will move the user info to the context to use it also across routes
-    // getPosts: () => [];  // NOTE: This is a redundant method since we can get posts directly from the context
-    addPost: (post: any) => void;   // NOTE: We add a method to handle from context all post additions
+    userName: string;                   // NOTE: We will move the user info to the context to use it also across routes
+    // getPosts: () => [];              // NOTE: This is a redundant method since we can get posts directly from the context
+    addPost: (post: any) => void;       // NOTE: We add a method to handle from context all post additions
+    removePost: (postId: any) => void;  // NOTE: We add a method to handle the deletion of a post
 }
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
@@ -33,11 +34,17 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         setPosts([...newPosts]) 
     }
 
+    // NOTE: We handle the deletion of a post
+    const removePost = async (postId: any) => {
+        const newPosts = await deletePost(postId);
+        setPosts([...newPosts])
+    }
+
     // const getPosts = () => { return posts; }
 
     // NOTE: Observe how we updated the value content by removin getPosts and added username + addPost
     return(
-        <PostContext.Provider value={{posts, userName, addPost}}> {children} </PostContext.Provider>
+        <PostContext.Provider value={{posts, userName, addPost, removePost}}> {children} </PostContext.Provider>
     );
 }
 

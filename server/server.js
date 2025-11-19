@@ -46,4 +46,17 @@ app.post("/api/posts/new", (req, res) => {
     res.json(localData);
 });
 
+// NOTE: We will add a delete endpoint to remove the desired post from the list
+app.delete("/api/posts/:idx", (req, res) => {
+    var delIdx = parseInt(req.params.idx);
+    if(localData.length != 0) {
+        const postIdx = localData.findIndex((post) => post.id === delIdx );
+        if (postIdx !== -1) {
+            localData.splice(postIdx, 1); // Removes 1 element at that index
+        }
+    }
+    // NOTE: Once we have removed the desired post, we will return the updated list
+    res.json(localData);
+});
+
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
