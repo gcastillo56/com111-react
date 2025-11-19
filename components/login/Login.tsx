@@ -11,7 +11,7 @@ export default function Login() {
     const router = useRouter();
     const [loginCredentials, setLoginCredentials] = useState({ 'email': '', 'password': '' });
     const [error, setError] = useState<string | null>(null);
-    const { addUpdatePost } = usePostContext();
+    const { setUser } = usePostContext();
 
     const fieldChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
         setLoginCredentials({ ...loginCredentials, [e.target.name] : e.target.value });
@@ -32,8 +32,7 @@ export default function Login() {
                 return;
             }
             // NOTE: register our name into the context
-            addUpdatePost(response.name);
-            alert(`Welcome ${response.name}`)
+            setUser(response.name);
             router.push("/");
             router.refresh();
         } catch {
