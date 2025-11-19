@@ -1,14 +1,19 @@
 'use client';
 import { useState } from "react";
+import { useRouter } from 'next/navigation';
+import { usePostContext } from "@/context/postContext";
 
 function NewPost() {
-    const [postContent, setPostContent] = useState({ 'title': '', 'author': '', 'content': '' });
+    // NOTE: From the context I grab the userName to put it as suggestion for author and the addPost method
+    const { userName, addPost } = usePostContext();
+    // NOTE: Since we are also going to reroute our response to the posts page, we will get the useRouter hook from next/navigation
+    const router = useRouter();
+    const [postContent, setPostContent] = useState({ 'title': '', 'author': userName, 'content': '' });
 
     const fieldChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
-        console.log("Title changed:", e.target.value);
         const key = e.target.name
         setPostContent({ ...postContent, [key] : e.target.value });
-        console.log(postContent)
+        // console.log(postContent)
     }
 
     const submitForm = (e: any) => {
@@ -17,8 +22,9 @@ function NewPost() {
             alert("You need an author");
             return;
         }
-        alert("Form submitted");
+        addPost(postContent);
         setPostContent({ 'title': '', 'author': '', 'content': '' });
+        router.push('/posts')
     }
 
     return (

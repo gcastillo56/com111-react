@@ -1,14 +1,12 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { fetchPosts } from "@/api/api";
+import { fetchPosts, addPosts } from "@/api/api";
 
 type PostContextType = {
     posts: any;
     userName: string;       // NOTE: We will move the user info to the context to use it also across routes
     // getPosts: () => [];  // NOTE: This is a redundant method since we can get posts directly from the context
-    addPost: (post: any) => void;   // NOTE: We add a method to update our local posts
-    // refresh: () => void; // NOTE: It could be wise to implement a refresh method to sync with backend.
-                            // But we will not implement it now.
+    addPost: (post: any) => void;   // NOTE: We add a method to handle from context all post additions
 }
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
@@ -29,7 +27,11 @@ export const PostProvider = ({ children }: { children: React.ReactNode }) => {
         loadPosts();
     },[]);
 
-    const addPost = (post: any) => { setPosts([...posts, post])}
+    // NOTE: This method will save it directly to the backend and will update the posts with the returned value.
+    const addPost = async (post: any) => { 
+        const newPosts = await addPosts(post);
+        setPosts([...newPosts]) 
+    }
 
     // const getPosts = () => { return posts; }
 

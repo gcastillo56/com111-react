@@ -27,6 +27,24 @@ const fetchPosts = async () => {
     }
 }
 
+// NOTE: We prepare the local api method that will contact the backend to receive the new post.
+const addPosts = async (newPost: any) => {
+    console.log("Adding post in the backend");
+    try {
+        const res = await myAPI.post(`/api/posts/new`, { ...newPost } );
+        console.log("Response from backend:", res.data);
+        return res.data;
+    } catch (error) {
+        console.error("Error pinging backend:", error);
+        return [{ "id": 0,
+            "title": "No Posts",
+            "author": { "name" : "" },
+            "createdAt": "2025-11-04 12:00:00",
+            "content": "No posts available at the moment."
+        }];
+    }
+}
+
 const pingBackend = async () => {
     console.log("Pinging the backend");
     try {
@@ -43,4 +61,4 @@ const testConnectivity = () => {
     console.log("Testing the connectivity");
 }
 
-export { fetchPosts, pingBackend, testConnectivity }
+export { fetchPosts, pingBackend, testConnectivity, addPosts }
