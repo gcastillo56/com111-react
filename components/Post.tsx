@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-function Post({key, post}: any) {
+function Post({post}: any) {
     // NOTE: We also add the link to the detailed post in this view
     return(
-        <li key={key} className="border p-6 rounded-lg shadow-md bg-white">
+        <li key={post.id} className="border p-6 rounded-lg shadow-md bg-white">
             <Link href={`/posts/${post.id}`} className="text-2xl font-semibold text-gray-900 hover:underline">
             {post.title}
             </Link>

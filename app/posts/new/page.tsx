@@ -11,7 +11,7 @@ function NewPost() {
     const [postContent, setPostContent] = useState({ 'title': '', 'author': userName, 'content': '' });
 
     const fieldChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
-        const key = e.target.name
+        const key = e.target.name;
         setPostContent({ ...postContent, [key] : e.target.value });
         // console.log(postContent)
     }
@@ -24,7 +24,7 @@ function NewPost() {
         }
         addPost(postContent);
         setPostContent({ 'title': '', 'author': '', 'content': '' });
-        router.push('/posts')   // NOTE: we could as well use the redirect("/posts") method from next/navigation
+        router.push('/posts');   // NOTE: we could as well use the redirect("/posts") method from next/navigation
     }
 
     return (
